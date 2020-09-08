@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Secret Key를 생성하고 ap-northeast-2(서울)혹은 eu-west-1(아일렌드) 리전에서 실행할 것."
+Mappings:
+  AWSRegionArch2AMI:
+    eu-west-1:
+      HVM64: ami-08935252a36e25f85
+      HVMG2: ami-0d5299b1c6112c3c7
+    ap-northeast-2:
+      HVM64: ami-00dc207f8ba6dc919
+      HVMG2: NOT_SUPPORTED
+Resources:
+  Instance1:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      SecurityGroupIds:
+        - !Ref WebServerSecurityGroup
+      KeyName: key1
+      InstanceType: t2.micro
+      ImageId: !FindInMap
+        - AWSRegionArch2AMI
+        - !Ref 'AWS::Region'
+        - HVM64
+  WebServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable HTTP access via port 80
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+Outputs:
+  JustDescription:
+    Description: Just Description
+    Value:
+      'Fn::Join':
+        - ''
+        - - First
+          - Second
+          - Third
+  JustDescription2:
+    Description: Just Description - Multiline
+    Value:
+      !Join
+      - ''
+      - - |
+          First Line
+        - |
+          Second Line
+        - |
+          Third Line

@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  s1:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      SecurityGroupIds:
+        - !Ref sg1
+      KeyName: key1
+      InstanceType: t2.micro
+      ImageId: ami-00dc207f8ba6dc919
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: fabd80b8-8086-4caf-9e42-3f62e2c56c19
+  sg1:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: SSH
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 30a98790-fe60-4dba-a070-6bd1183ff4e3

@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'Secret Key를 생성하고 아래 ec2의 기본 SecurityGroupIds와 keyName을 지정하고 실행할 것, ap-northeast-2(서울) 리전에서 실행할 것.'
+Resources:
+  Instance1:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      SecurityGroupIds:
+        - sg-0ed4d7e526d014873
+      KeyName: key1
+      InstanceType: t2.micro
+      ImageId: ami-00dc207f8ba6dc919
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: fd2e01e7-3b84-49e8-9917-d3fd2c1c9e57

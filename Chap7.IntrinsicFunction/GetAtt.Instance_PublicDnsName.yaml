@@ -1,0 +1,38 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'test'
+Parameters:
+  KeyName:
+    Default: key1
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+Resources:
+  Instance1:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      SecurityGroupIds:
+        - !Ref sg1
+      KeyName: !Ref KeyName
+      InstanceType: t2.micro
+      ImageId: ami-00dc207f8ba6dc919
+  sg1:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: SSH
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+Outputs:
+  WebsiteURL:
+    Description: URL for newly created instance
+    Value: !Join
+      - ''
+      - - 'ssh -i '
+        - !Ref KeyName
+        - '.pem ec2-user'
+        - !GetAtt
+          - Instance1
+          - PublicDnsName

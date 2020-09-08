@@ -1,0 +1,18 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'test'
+Parameters:
+  KeyName:
+    Default: key2
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+Resources:
+  Instance1:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      SecurityGroupIds:
+        - sg-0ed4d7e526d014873
+      KeyName: !Ref KeyName
+      InstanceType: t2.micro
+      ImageId: ami-00dc207f8ba6dc919
